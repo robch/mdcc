@@ -311,7 +311,18 @@ class Program
         try
         {
             ConsoleHelpers.PrintStatus($"Executing: {command.ScriptToRun} ...");
-            var finalContent = await GetFinalRunCommandContentAsync(command);
+            
+            var shell = command.Type switch
+            {
+                RunCommand.ScriptType.Cmd => "cmd",
+                RunCommand.ScriptType.PowerShell => "powershell",
+                RunCommand.ScriptType.Bash => "bash",
+                _ => OperatingSystem.IsWindows() ? "cmd" : "bash"
+            };
+
+            var timeout = command.TimeoutMilliseconds > 0 ? command.TimeoutMilliseconds : int.MaxValue;
+            var (output, exitCode) = await ProcessHelpers.RunShellCommandAsync(command.ScriptToRun, shell, timeout);
+            var finalContent = exitCode == 0 ? output : $"Error (exit code {exitCode}): {output}";
 
             if (!string.IsNullOrEmpty(command.SaveOutput))
             {
@@ -354,7 +365,8 @@ class Program
                 _ => null
             };
 
-            var (output, exitCode) = await ProcessHelpers.RunShellCommandAsync(script, shell);
+            var timeout = command.TimeoutMilliseconds > 0 ? command.TimeoutMilliseconds : int.MaxValue;
+            var (output, exitCode) = await ProcessHelpers.RunShellCommandAsync(script, shell, timeout);
             var backticks = new string('`', MarkdownHelpers.GetCodeBlockBacktickCharCountRequired(output));
 
             var isMultiLine = script.Contains("\n");

@@ -1,0 +1,24 @@
+tests:
+- name: Test timeout functionality with a long-running script
+  bash: |
+    mdx run --bash "sleep 5" --timeout 2000
+  expect-regex: |
+    Process timed out after 2000ms
+
+- name: Test timeout with invalid value
+  bash: |
+    mdx run --bash "echo test" --timeout -1
+  expect-error: |
+    --timeout requires a positive integer value in milliseconds
+
+- name: Test timeout with non-numeric value
+  bash: |
+    mdx run --bash "echo test" --timeout abc
+  expect-error: |
+    --timeout requires a positive integer value in milliseconds
+
+- name: Test successful completion within timeout
+  bash: |
+    mdx run --bash "echo test" --timeout 5000
+  expect: |
+    test

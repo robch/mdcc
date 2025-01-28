@@ -14,6 +14,7 @@ class RunCommand : Command
     {
         ScriptToRun = string.Empty;
         Type = ScriptType.Default;
+        TimeoutMilliseconds = -1; // No timeout by default
     }
 
     public override bool IsEmpty()
@@ -28,4 +29,5 @@ class RunCommand : Command
 
     public string ScriptToRun { get; set; }
     public ScriptType Type { get; set; }
+    public int TimeoutMilliseconds { get; set; }
 }
