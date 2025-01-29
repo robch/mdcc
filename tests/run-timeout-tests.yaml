@@ -1,0 +1,24 @@
+tests:
+- name: Test timeout functionality - command completes before timeout
+  bash: |
+    mdx run --script "echo Hello World" --timeout 5000
+  expect-regex: |
+    Hello World
+
+- name: Test timeout functionality - command times out
+  bash: |
+    mdx run --script "sleep 10" --timeout 1000
+  expect-regex: |
+    Timedout!
+
+- name: Test timeout functionality - invalid timeout value
+  bash: |
+    mdx run --script "echo test" --timeout -1
+  expect-regex: |
+    --timeout requires a positive integer value in milliseconds
+
+- name: Test timeout functionality - non-numeric timeout value
+  bash: |
+    mdx run --script "echo test" --timeout abc
+  expect-regex: |
+    --timeout requires a positive integer value in milliseconds

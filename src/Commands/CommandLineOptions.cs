@@ -347,6 +347,16 @@ class CommandLineOptions
             command.Type = RunCommand.ScriptType.Bash;
             i += scriptArgs.Count();
         }
+        else if (arg == "--timeout")
+        {
+            var timeoutArgs = GetInputOptionArgs(i + 1, args, 1);
+            if (!timeoutArgs.Any() || !int.TryParse(timeoutArgs.First(), out int timeout) || timeout <= 0)
+            {
+                throw new CommandLineException("--timeout requires a positive integer value in milliseconds");
+            }
+            command.TimeoutMilliseconds = timeout;
+            i += timeoutArgs.Count();
+        }
         else if (arg == "--powershell")
         {
             var scriptArgs = GetInputOptionArgs(i + 1, args, 1);

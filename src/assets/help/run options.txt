@@ -20,6 +20,11 @@ OPTIONS
     --instructions "..."          Apply the specified instructions to command output (uses AI CLI).
     --built-in-functions          Enable built-in functions (AI CLI can use file system).
 
+  TIMEOUT
+
+    --timeout MILLISECONDS        Set a maximum runtime for the command. If the command runs longer than the specified duration,
+                                  it will attempt to terminate the process. If that fails, it will send a ctrl-c signal and try again.
+
   OUTPUT
 
     --save-output [FILE]          Save command output to the specified template file.
