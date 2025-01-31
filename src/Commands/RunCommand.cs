@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 class RunCommand : Command
 {
@@ -14,6 +15,7 @@ class RunCommand : Command
     {
         ScriptToRun = string.Empty;
         Type = ScriptType.Default;
+        EnvironmentVariables = new Dictionary<string, string>();
     }
 
     override public string GetCommandName()
@@ -33,4 +35,5 @@ class RunCommand : Command
 
     public string ScriptToRun { get; set; }
     public ScriptType Type { get; set; }
+    public Dictionary<string, string> EnvironmentVariables { get; set; }
 }

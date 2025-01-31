@@ -109,6 +109,7 @@ EXAMPLES
   EXAMPLE 3: Create markdown running a script
 
     mdx run --powershell "Get-Process" --instructions "list running processes"
+    mdx run --env API_KEY=abc123 --env DEBUG=true "python script.py"
 
   EXAMPLE 4: Create markdown from a web search
 

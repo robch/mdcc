@@ -78,7 +78,7 @@ class Program
                 FindFilesCommand findFilesCommand => HandleFindFileCommand(commandLineOptions, findFilesCommand, throttler, delayOutputToApplyInstructions),
                 WebSearchCommand webSearchCommand => await HandleWebSearchCommandAsync(commandLineOptions, webSearchCommand, throttler, delayOutputToApplyInstructions),
                 WebGetCommand webGetCommand => HandleWebGetCommand(commandLineOptions, webGetCommand, throttler, delayOutputToApplyInstructions),
-                RunCommand runCommand => HandleRunCommand(commandLineOptions, runCommand, throttler, delayOutputToApplyInstructions),
+                RunCommand runCommand => RunCommandHelpers.HandleRunCommand(commandLineOptions, runCommand, throttler, delayOutputToApplyInstructions),
                 _ => new List<Task<string>>()
             };
 

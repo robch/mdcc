@@ -6,13 +6,13 @@ using System.Threading;
 
 static class ProcessHelpers
 {
-    public static async Task<(string, int)> RunShellCommandAsync(string script, string shell, int timeout = int.MaxValue)
+    public static async Task<(string, int)> RunShellCommandAsync(string script, string shell, Dictionary<string, string> environmentVariables = null, int timeout = int.MaxValue)
     {
         GetShellProcessNameAndArgs(script, shell, out var processName, out var arguments);
-        return await RunProcessAsync(processName, arguments, timeout);
+        return await RunProcessAsync(processName, arguments, environmentVariables, timeout);
     }
 
-    public static async Task<(string, int)> RunProcessAsync(string processName, string arguments, int timeout = int.MaxValue)
+    public static async Task<(string, int)> RunProcessAsync(string processName, string arguments, Dictionary<string, string> environmentVariables = null, int timeout = int.MaxValue)
     {
         var startInfo = new ProcessStartInfo()
         {
@@ -23,6 +23,14 @@ static class ProcessHelpers
             UseShellExecute = false,
             CreateNoWindow = true,
         };
+
+        if (environmentVariables != null)
+        {
+            foreach (var kvp in environmentVariables)
+            {
+                startInfo.Environment[kvp.Key] = kvp.Value;
+            }
+        }
 
         var sbOut = new StringBuilder();
         var sbErr = new StringBuilder();
