@@ -67,3 +67,25 @@
   expect-regex: |
     Hello World
     Goodbye World
+
+- name: Test working directory option with bash
+  steps:
+  - bash: |
+      mkdir -p /tmp/mdx-test-dir
+      touch /tmp/mdx-test-dir/test.txt
+  - bash: |
+      mdx run --bash "pwd; ls" --working-dir "/tmp/mdx-test-dir"
+  expect-regex: |
+    /tmp/mdx-test-dir
+    test.txt
+
+- name: Test working directory option with cmd
+  steps:
+  - bash: |
+      mkdir -p /tmp/mdx-test-dir2
+      touch /tmp/mdx-test-dir2/test2.txt
+  - bash: |
+      mdx run --cmd "cd && dir" --working-dir "/tmp/mdx-test-dir2"
+  expect-regex: |
+    /tmp/mdx-test-dir2
+    test2.txt

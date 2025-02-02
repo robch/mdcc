@@ -6,13 +6,13 @@ using System.Threading;
 
 static class ProcessHelpers
 {
-    public static async Task<(string, int)> RunShellCommandAsync(string script, string shell, int timeout = int.MaxValue)
+    public static async Task<(string, int)> RunShellCommandAsync(string script, string shell, string workingDirectory = "", int timeout = int.MaxValue)
     {
         GetShellProcessNameAndArgs(script, shell, out var processName, out var arguments);
-        return await RunProcessAsync(processName, arguments, timeout);
+        return await RunProcessAsync(processName, arguments, workingDirectory, timeout);
     }
 
-    public static async Task<(string, int)> RunProcessAsync(string processName, string arguments, int timeout = int.MaxValue)
+    public static async Task<(string, int)> RunProcessAsync(string processName, string arguments, string workingDirectory = "", int timeout = int.MaxValue)
     {
         var startInfo = new ProcessStartInfo()
         {
@@ -22,6 +22,7 @@ static class ProcessHelpers
             RedirectStandardError = true,
             UseShellExecute = false,
             CreateNoWindow = true,
+            WorkingDirectory = !string.IsNullOrEmpty(workingDirectory) ? workingDirectory : Environment.CurrentDirectory
         };
 
         var sbOut = new StringBuilder();

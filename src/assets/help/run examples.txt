@@ -21,6 +21,10 @@ EXAMPLES
   EXAMPLE 4: Run multiple commands
 
     mdx run "echo Hello, World!" "echo Goodbye, World!"
+
+  EXAMPLE 5: Run a command in a specific working directory
+
+    mdx run --bash "pwd; ls" --working-dir "/path/to/directory"
     
 SEE ALSO
 

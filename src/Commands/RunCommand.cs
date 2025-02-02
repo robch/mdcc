@@ -14,6 +14,7 @@ class RunCommand : Command
     {
         ScriptToRun = string.Empty;
         Type = ScriptType.Default;
+        WorkingDirectory = string.Empty;
     }
 
     override public string GetCommandName()
@@ -33,4 +34,5 @@ class RunCommand : Command
 
     public string ScriptToRun { get; set; }
     public ScriptType Type { get; set; }
+    public string WorkingDirectory { get; set; }
 }
